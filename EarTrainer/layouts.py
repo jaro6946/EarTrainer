@@ -30,7 +30,8 @@ def homeLayout():
                 [sg.Button('chord', font=("Helvetica", 12), size=(8, 1), key='chord'),
                  sg.Button('play', font=("Helvetica", 12), size=(8, 1), key='play'),
                  sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree')],
-                 [sg.Text('_'*30)]
+                 [sg.Text('_'*30)],
+                 [sg.Spin(values=('guitar', 'piano', 'voice'), initial_value='guitar')]
                 
              
                 ]
@@ -57,7 +58,8 @@ def intervalViewLayout():
                  sg.Button('Major Scale', font=("Helvetica", 12), size=(10, 1), key='majorScale')], 
                 [sg.Button('chord', font=("Helvetica", 12), size=(8, 1), key='chord'),
                  sg.Button('play', font=("Helvetica", 12), size=(8, 1), key='play'),
-                 sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree')],
+                 sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree'),
+                 sg.Button('Home', font=("Helvetica", 12), size=(8, 1), key='home')],
                  [sg.Text('_'*30)],
                 [sg.Slider( range=(2, 10), default_value=2, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
                  sg.Text(' ' * 2),
@@ -65,13 +67,16 @@ def intervalViewLayout():
                  sg.Text(' ' * 2),
                  sg.Slider(range=(0, 100), default_value=10, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
                  sg.Text(' ' * 2),
-                 sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
+                 sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
+                 sg.Text(' ' * 2),
+                 sg.Slider(range=(0, 100), default_value=40, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
                  #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
                  ],
                 [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
                 sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
                 sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
-                sg.Text('Volume', font=("Helvetica", 12), size=(8, 1))],
+                sg.Text('Volume', font=("Helvetica", 12), size=(8, 1)),
+                sg.Text('NoteLength', font=("Helvetica", 12), size=(8, 1))],
                 [sg.Text('_'*30)],
                 [sg.Button('U', font=("Helvetica", 12), size=(8, 1), key='U'), 
                  sg.Button('m2', font=("Helvetica", 12), size=(8, 1), key='m2'), 
@@ -112,7 +117,8 @@ def chordLayout():
              sg.Button('Major Scale', font=("Helvetica", 12), size=(10, 1), key='majorScale')], 
             [sg.Button('chord', font=("Helvetica", 12), size=(8, 1), key='chord'),
              sg.Button('play', font=("Helvetica", 12), size=(8, 1), key='play'),
-             sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree')],
+             sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree'),
+             sg.Button('Home', font=("Helvetica", 12), size=(8, 1), key='home')],
              [sg.Text('_'*30)],
             [sg.Slider( range=(1, 10), default_value=2, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
              sg.Text(' ' * 2),
@@ -120,14 +126,17 @@ def chordLayout():
              sg.Text(' ' * 2),
              sg.Slider(range=(0, 100), default_value=3, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
              sg.Text(' ' * 2),
-             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
-             #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
-             ],
-            [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
-            sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
-            sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
-            sg.Text('Volume', font=("Helvetica", 12), size=(8, 1))],
-            [sg.Text('_'*30)],
+             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
+                 sg.Text(' ' * 2),
+                 sg.Slider(range=(0, 100), default_value=40, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
+                 #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
+                 ],
+                [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
+                sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
+                sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
+                sg.Text('Volume', font=("Helvetica", 12), size=(8, 1)),
+                sg.Text('NoteLength', font=("Helvetica", 12), size=(8, 1))],
+                [sg.Text('_'*30)],
              [sg.Button('Major', font=("Helvetica", 12), size=(8, 1), key='majorChord'),
              sg.Button('Minor', font=("Helvetica", 12), size=(8, 1), key='minorChord'), 
              sg.Button('Major 7', font=("Helvetica", 12), size=(8, 1), key='major7Chord'), 
@@ -161,7 +170,8 @@ def degreeLayout():
              sg.Button('Major Scale', font=("Helvetica", 12), size=(10, 1), key='majorScale')], 
             [sg.Button('chord', font=("Helvetica", 12), size=(8, 1), key='chord'),
              sg.Button('play', font=("Helvetica", 12), size=(8, 1), key='play'),
-             sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree')],
+             sg.Button('degree', font=("Helvetica", 12), size=(8, 1), key='degree'),
+                 sg.Button('Home', font=("Helvetica", 12), size=(8, 1), key='home')],
              [sg.Text('_'*30)],
             [sg.Slider( range=(1, 10), default_value=2, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
              sg.Text(' ' * 2),
@@ -169,14 +179,17 @@ def degreeLayout():
              sg.Text(' ' * 2),
              sg.Slider(range=(0, 100), default_value=3, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
              sg.Text(' ' * 2),
-             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
-             #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
-             ],
-            [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
-            sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
-            sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
-            sg.Text('Volume', font=("Helvetica", 12), size=(8, 1))],
-            [sg.Text('_'*30)],
+             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
+                 sg.Text(' ' * 2),
+                 sg.Slider(range=(0, 100), default_value=40, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
+                 #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
+                 ],
+                [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
+                sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
+                sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
+                sg.Text('Volume', font=("Helvetica", 12), size=(8, 1)),
+                sg.Text('NoteLength', font=("Helvetica", 12), size=(8, 1))],
+                [sg.Text('_'*30)],
             
              [sg.Button('I', font=("Helvetica", 12), size=(8, 1), key='I'),
              sg.Button('ii', font=("Helvetica", 12), size=(8, 1), key='ii'), 
@@ -211,14 +224,17 @@ def playLayout():
              sg.Text(' ' * 2),
              sg.Slider(range=(0, 100), default_value=3, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
              sg.Text(' ' * 2),
-             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
-             #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
-             ],
-            [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
-            sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
-            sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
-            sg.Text('Volume', font=("Helvetica", 12), size=(8, 1))],
-            [sg.Text('_'*30)],
+             sg.Slider(range=(0, 100), default_value=99, size=(10, 20), orientation='vertical', font=("Helvetica", 15)),
+                 sg.Text(' ' * 2),
+                 sg.Slider(range=(0, 100), default_value=40, size=(10, 20), orientation='vertical', font=("Helvetica", 15))
+                 #,sg.Output(size=(50,10), key='OUTPUT', font=("Helvetica", 8))
+                 ],
+                [sg.Text('# Notes', font=("Helvetica", 12), size=(7, 1)),
+                sg.Text('subListInterval', font=("Helvetica", 12), size=(12, 1)),
+                sg.Text('chordInterval', font=("Helvetica", 12), size=(9, 1)),
+                sg.Text('Volume', font=("Helvetica", 12), size=(8, 1)),
+                sg.Text('NoteLength', font=("Helvetica", 12), size=(8, 1))],
+                [sg.Text('_'*30)],
             [sg.Button('U', font=("Helvetica", 12), size=(8, 1), key='U'), 
              sg.Button('m2', font=("Helvetica", 12), size=(8, 1), key='m2'), 
              sg.Button('M2', font=("Helvetica", 12), size=(8, 1), key='M2'),

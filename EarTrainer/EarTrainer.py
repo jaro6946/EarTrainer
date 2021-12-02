@@ -9,13 +9,22 @@ import threading
 import random
 
 
-class stopNotes (threading.Thread):
+class stopAllNotes (threading.Thread):
    def __init__(self):
        threading.Thread.__init__(self)
       
    def run(self):
        time.sleep(.25)
        [fs.noteoff(0,x) for x in range(1,100)]
+
+class stopNotes (threading.Thread):
+   def __init__(self, time, notes):
+       threading.Thread.__init__(self)
+       self.time=time
+       self.notes=notes
+   def run(self):
+       time.sleep(self.time)
+       [fs.noteoff(0,note) for note in self.notes]
 
 
 #Initialize Fluidsynth
@@ -47,11 +56,15 @@ degreeChoices=[[0,4,7],[2,5,9],[4,7,11],[5,9,12],[7,11,14],[9,12,16],[11,14,17],
 majorScale=[0, 2, 4, 5, 7, 9, 11, 12]
 diatonicScale=[0,1,2,3,4,5,6,7,8,9,10,11,12]
 
+instrumentModes=['guitar','piano','voice']
+instrumentLinks={'guitar':"./SoundFonts/Guitar.sf2",'piano':"./SoundFonts/Piano.sf2",'voice':"./SoundFonts/Voice.sf2"}
+
 chordFlag=0
-playMode='majorScale'
+playMode='home'
 mode='quiz'
 
 window=layouts.homeLayout()
+instrumentMode='guitar'
 
 while True:
     seed=0
@@ -67,6 +80,7 @@ while True:
         if event=='play':
             if mode=='play':
                 mode='quiz'
+                playMode='home'
                 window.close()
                 window=layouts.homeLayout()
                 event, values = window.read(timeout=100) 
@@ -75,7 +89,13 @@ while True:
                 degreeRanSeed=randrange(40,76-11)
                 window.close()
                 window=layouts.playLayout()
-                event, values = window.read(timeout=100) 
+                event, values = window.read(timeout=100)
+    elif event=='home':
+        playMode='home'
+        window.close()
+        window=layouts.homeLayout()
+        event, values = window.read(timeout=100)
+
     elif  event== 'majorScale':
         playMode='majorScale'
         window.close()
@@ -97,6 +117,13 @@ while True:
         window.close()
         window=layouts.degreeLayout()
         event, values = window.read(timeout=100) 
+
+    elif playMode=='home':
+        if values[0]!=instrumentMode:
+            instrumentMode=values[0]
+            print(instrumentMode)
+            sfid = fs.sfload(instrumentLinks[instrumentMode])
+            fs.program_select(0, sfid, 0, 0)
 
 
     if event != sg.TIMEOUT_KEY:  
@@ -154,8 +181,8 @@ while True:
                     print('wrong')
 
 
-    if event=='-exNEXT-':
-        mute=stopNotes()
+    if event=='-exNEXT-' and playMode!='home':
+        noteLength=values[4]/50
         strength=values[3]
         chordOffset=values[2]/10
         subListOffset=values[1]/10
@@ -260,14 +287,14 @@ while True:
                 if note == subList[-1]:
                     flag=1
                 fs.noteon(0,note,int(strength))
+                muteOneNote=stopNotes(noteLength, [note])
+                muteOneNote.start()
                 if flag==0:
                     time.sleep(chordOffset)
             time.sleep(subListOffset)
-        mute.start()
 
 
-    if event=='-exRESTART SONG-':
-        mute=stopNotes()
+    if event=='-exRESTART SONG-' and playMode!='home':
         strength=values[3]
         chordOffset=values[2]/10
         subListOffset=values[1]/10
@@ -279,10 +306,11 @@ while True:
                 if note == subList[-1]:
                     flag=1
                 fs.noteon(0,note,int(strength))
+                muteOneNote=stopNotes(noteLength, [note])
+                muteOneNote.start()
                 if flag==0:
                     time.sleep(chordOffset)
             time.sleep(subListOffset)
-        mute.start()
         
         
 
